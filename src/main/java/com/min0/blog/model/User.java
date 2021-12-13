@@ -1,11 +1,21 @@
 package com.min0.blog.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+//@DynamicInsert : insert시에 null인 필드를 제외시켜줌
 @Entity
 public class User {
 
@@ -22,8 +32,10 @@ public class User {
     @Column(nullable = false, length = 50)
     private String email;
 
-    @ColumnDefault("'user'")
-    private String role; // 나중에 Enum으로 바꾼다.
+//    @ColumnDefault("'user'")
+    // DB는 RoleType이 없기 때문에
+    @Enumerated(EnumType.STRING)
+    private RoleType role; // 나중에 Enum으로 바꾼다.
 
     @CreationTimestamp  // 시간 자동 입력
     private Timestamp createDate;
